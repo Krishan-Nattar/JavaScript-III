@@ -241,8 +241,6 @@ const angel = new Hero({
   language: "Demoniac"
 });
 
-const delay = ms => new Promise(res => setTimeout(res, ms));
-
 window.setInterval(function () {
   if (angel.healthPoints > 0){
     angel.justiceStrike(demon);
