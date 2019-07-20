@@ -59,15 +59,15 @@ function Humanoid(obj) {
 CharacterStats.prototype = Object.create(GameObject.prototype);
 Humanoid.prototype = Object.create(CharacterStats.prototype);
 
-GameObject.prototype.destroy = function() {
+GameObject.prototype.destroy = function () {
   return `${this.name} was removed from the game.`;
 };
 
-CharacterStats.prototype.takeDamage = function() {
+CharacterStats.prototype.takeDamage = function () {
   return `${this.name} took damage`;
 };
 
-Humanoid.prototype.greet = function() {
+Humanoid.prototype.greet = function () {
   return `${this.name} offers a greeting in ${this.language}`;
 };
 
@@ -146,32 +146,31 @@ function Villain(obj) {
 
 Villain.prototype = Object.create(Humanoid.prototype);
 
-Villain.prototype.sneakAttack = function(obj) {
+Villain.prototype.sneakAttack = function (obj) {
   if (obj.healthPoints > 0) {
     let damageAmount = Math.floor(
       Math.random() *
-        (this.dimensions["length"] *
-          this.dimensions["width"] *
-          this.dimensions["height"])
+      (this.dimensions["length"] *
+        this.dimensions["width"] *
+        this.dimensions["height"])
     );
     obj.healthPoints -= damageAmount;
     let randomWeapon = Math.floor(Math.random() * this.weapons.length);
     if (obj.healthPoints > 0) {
       console.log(
         `${this.name} attacks ${obj.name} with ${
-          this.weapons[randomWeapon]
+        this.weapons[randomWeapon]
         } for ${damageAmount} damage! ${obj.name} has ${
-          obj.healthPoints
+        obj.healthPoints
         } health points left!`
       );
     } else {
       console.log(
         `${this.name} attacks ${obj.name} with ${this.weapons[randomWeapon]}! ${
-          obj.name
+        obj.name
         } has no health points left!`
       );
       console.log(obj.destroy());
-      // console.log(this.dimensions.length * this.dimensions.width*this.dimensions.height)
     }
   }
 };
@@ -182,13 +181,13 @@ function Hero(obj) {
 
 Hero.prototype = Object.create(Humanoid.prototype);
 
-Hero.prototype.justiceStrike = function(obj) {
+Hero.prototype.justiceStrike = function (obj) {
   if (obj.healthPoints > 0) {
     let damageAmount = Math.floor(
       Math.random() *
-        (this.dimensions["length"] *
-          this.dimensions["width"] *
-          this.dimensions["height"])
+      (this.dimensions["length"] *
+        this.dimensions["width"] *
+        this.dimensions["height"])
     );
 
     obj.healthPoints -= damageAmount;
@@ -196,21 +195,20 @@ Hero.prototype.justiceStrike = function(obj) {
     if (obj.healthPoints > 0) {
       console.log(
         `${this.name} attacks ${obj.name} with ${
-          this.weapons[randomWeapon]
+        this.weapons[randomWeapon]
         } for ${damageAmount} damage! ${obj.name} has ${
-          obj.healthPoints
+        obj.healthPoints
         } health points left!`
       );
     } else {
       console.log(
         `${this.name} attacks ${obj.name} with ${
-          this.weapons[randomWeapon]
+        this.weapons[randomWeapon]
         } for ${damageAmount}! ${obj.name} has ${
-          obj.healthPoints
+        obj.healthPoints
         } health points left!`
       );
       console.log(obj.destroy());
-      // console.log(this.dimensions.length * this.dimensions.width*this.dimensions.height)
     }
   }
 };
@@ -222,7 +220,7 @@ const demon = new Villain({
     width: 5,
     height: 1
   },
-  healthPoints: 100,
+  healthPoints: 110,
   name: "Beelzebub",
   team: "HellSpawn",
   weapons: ["Fire Breath", "Black Curse", "Poison Bite"],
@@ -243,21 +241,16 @@ const angel = new Hero({
   language: "Demoniac"
 });
 
-// }
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
-// var delay = (function() {
-//   var timer = 0;
-//   return function(callback, ms) {
-//     clearTimeout(timer);
-//     timer = setTimeout(callback, ms);
-//   };
-// })();
-
-while (angel.healthPoints > 0 && demon.healthPoints > 0) {
-  // delay(function() {
+window.setInterval(function () {
+  if (angel.healthPoints > 0){
     angel.justiceStrike(demon);
-    if (demon.healthPoints > 0) {
-      demon.sneakAttack(angel);
-    }
-  // }, 1);
-}
+  }
+  if (demon.healthPoints > 0) {
+    demon.sneakAttack(angel);
+  }
+  if (angel.healthPoints < 1 || demon.healthPoints < 1) {
+    clearInterval();
+  }
+}, 1000);
