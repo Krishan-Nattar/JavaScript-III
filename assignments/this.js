@@ -18,16 +18,58 @@
 
 
 console.log(this.screen.height, window.screen.height, "See? They are the same thing: this=window");
+function windowHeight(){
+    console.log(this.screen.height, window.screen.height, "Another example showing window binding")
+}
+windowHeight();
 
 
 // Principle 2
 
 // code example for Implicit Binding
 
+let implicitObject = {
+    name: "Krishan",
+    age: 33,
+    speak: function(){
+        console.log(`Hello, my name is ${this.name} and I am ${this.age}. This is an example of Implicit binding`);
+    }
+}
+implicitObject.speak();
+
+
+
 // Principle 3
 
 // code example for New Binding
 
+function Person(obj){
+    this.name = obj.name;
+    this.age = obj.age;
+    this.speak = function(){
+        console.log(`My name is ${this.name} and this is an example of New Binding`);
+    }
+}
+
+let krishan = new Person({name: "Krishan", age: 33});
+krishan.speak();
+
 // Principle 4
 
 // code example for Explicit Binding
+
+function explicitExample(x){
+    console.log(`This is an explicit binding example using ${x}... The password is: ${this.password}`);
+}
+
+let secret = {
+    password: "Open Sesame"
+}
+let applyArray = ['apply()'];
+explicitExample.call(secret, "call()");
+explicitExample.apply(secret, applyArray);
+let bound = explicitExample.bind(secret, "bind()");
+bound();
+
+
+
