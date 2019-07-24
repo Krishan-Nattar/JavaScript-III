@@ -17,7 +17,7 @@
 // code example for Window Binding
 
 
-console.log(this.screen.height, window.screen.height, "See? They are the same thing: this=window");
+console.log(this.screen.height, window.screen.height, "this.screen.height = window.screen.height");
 function windowHeight(){
     console.log(this.screen.height, window.screen.height, "Another example showing window binding")
 }
